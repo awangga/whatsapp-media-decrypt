@@ -1,15 +1,13 @@
-package main
+package github.com/awangga/whatsapp-media-decrypt
 
 import (
 	"bytes"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/Rhymen/go-whatsapp/crypto/cbc"
 	"github.com/Rhymen/go-whatsapp/crypto/hkdf"
@@ -36,28 +34,18 @@ var (
 )
 
 func main() {
-	var Usage = func() {
-		fmt.Fprintf(os.Stderr,
-			"Usage: %s -o FILE -t TYPE ENCFILE HEXMEDIAKEY\n\nOptions:\n",
-			os.Args[0])
-		flag.PrintDefaults()
-	}
+	//flag.Int("t", 0, "media `TYPE` (1 = image, 2 = video, 3 = audio, 4 = doc)")
+	mt := 4
+	outputFileName := "croot"
+	url := "file.enc"
+	hexMediaKey := "f5aa5796ead226049ea47d133b53a237f306b714af14e7f684d6e30c8155f247"
 
-	mt := flag.Int("t", 0, "media `TYPE` (1 = image, 2 = video, 3 = audio, 4 = doc)")
-	outputFileName := flag.String("o", "", "write decrypted output to `FILE`")
-	flag.Parse()
-
-	if *mt == 0 || len(*outputFileName) == 0 || flag.NArg() < 2 {
-		Usage()
-		os.Exit(1)
-	}
-
-	data, err := decryptMediaFile(flag.Args()[0], flag.Args()[1], mediaType(*mt))
+	data, err := decryptMediaFile(url, hexMediaKey, mediaType(mt))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile(*outputFileName, data, 0400)
+	err = ioutil.WriteFile(outputFileName, data, 0400)
 	if err != nil {
 		log.Fatal(err)
 	}

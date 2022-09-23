@@ -1,8 +1,7 @@
-module github.com/ddz/whatsapp-media-decrypt
+module github.com/awangga/whatsapp-media-decrypt
 
-go 1.12
+go 1.19
 
-require (
-	github.com/Rhymen/go-whatsapp v0.1.0
-	github.com/golang/protobuf v1.3.3
-)
+require github.com/golang/protobuf v1.5.2
+
+require google.golang.org/protobuf v1.26.0 // indirect
