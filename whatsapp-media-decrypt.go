@@ -1,4 +1,4 @@
-package github.com/awangga/whatsapp-media-decrypt
+package whatsapp-media-decrypt
 
 import (
 	"bytes"
